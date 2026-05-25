@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d1b2a">
+  <meta name="description" content="Condições de vento ao vivo para a estação Windguru 15572. Velocidade, direção e rajadas em tempo real.">
+  <meta property="og:title" content="Windguru Live — Estação 15572">
+  <meta property="og:description" content="Condições de vento em tempo real">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🌬</text></svg>">
+  <title>Windguru Live — Estação 15572</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d1b2a;
+      color: #e0eaf5;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      gap: 14px;
+    }
+
+    header { width: 100%; max-width: 640px; }
+    header h1 { font-size: 1.1rem; font-weight: 700; }
+    header p  { font-size: 0.75rem; color: #7fa8cc; margin-top: 3px; }
+
+    .live-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      background: #22dd88;
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: pulse 1.4s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.4; transform:scale(1.3); }
+    }
+
+    .card {
+      width: 100%;
+      max-width: 640px;
+      background: #132336;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 28px rgba(0,0,0,.45);
+      overflow-x: auto;
+    }
+
+    .card-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #5a8ab0;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+    }
+
+    #wind-container {
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7fa8cc;
+      font-size: 0.9rem;
+    }
+
+    #wind-container a { color: #3a7ab0; }
+
+    footer {
+      font-size: 0.65rem;
+      color: #2a4a66;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+    footer a { color: #3a7ab0; text-decoration: none; }
+
+    @media (max-width: 480px) {
+      header h1 { font-size: 1rem; }
+      .card { padding: 12px; border-radius: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🌬️ Condições de Vento — ID 15572</h1>
+    <p><span class="live-dot" aria-label="Status ao vivo"></span>Ao vivo · Windguru</p>
+  </header>
+
+  <div class="card" role="region" aria-label="Widget de vento ao vivo">
+    <div class="card-label"><span class="live-dot" aria-hidden="true"></span>Vento ao vivo</div>
+    <div id="wind-container">Carregando dados de vento...</div>
+    <script id="wglive_15572_1779742810382">
+    (function (window, document) {
+      var loader = function () {
+        var arg = ["spot=15572","uid=wglive_15572_1779742810382","direct=1","wj=knots","tj=c","avg_min=0","gsize=400","msize=400","m=3","ai=0","show=n,g,c"];
+        var script = document.createElement("script");
+        var tag = document.getElementsByTagName("script")[0];
+        script.async = true;
+        script.onerror = function () {
+          document.getElementById("wind-container").innerHTML =
+            "Erro ao carregar dados. <a href='https://www.windguru.cz/station/15572' target='_blank'>Ver em Windguru</a>";
+        };
+        script.src = "https://www.windguru.cz/js/wglive.php?" + (arg.join("&"));
+        tag.parentNode.insertBefore(script, tag);
+        setTimeout(function () {
+          var c = document.getElementById("wind-container");
+          if (c && c.textContent.trim() === "Carregando dados de vento...") {
+            c.innerHTML = "Sem resposta do servidor. <a href='https://www.windguru.cz/station/15572' target='_blank'>Ver em Windguru</a>";
+          }
+        }, 10000);
+      };
+      window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload", loader);
+    })(window, document);
+    </script>
+  </div>
+
+  <footer>
+    <a href="https://www.windguru.cz/station/15572" target="_blank">windguru.cz/station/15572</a>
+  </footer>
+
+</body>
+</html>
