@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌊 Vento ao Vivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ocean: #0a1628; --deep: #07101e; --wave: #0e4d6e;
+      --foam: #1ab8e8; --sky: #b8f0ff; --sun: #ffd166;
+      --accent: #06d6a0; --text: #e8f4f8; --muted: #6a9bb5;
+    }
+    body {
+      background-color: var(--ocean); color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      min-height: 100vh; display: flex;
+      flex-direction: column; align-items: center; overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(26,184,232,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(6,214,160,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(14,77,110,0.15) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    header {
+      width: 100%; padding: 28px 24px 20px;
+      text-align: center; position: relative; z-index: 1;
+      border-bottom: 1px solid rgba(26,184,232,0.15);
+    }
+    .tagline {
+      font-size: 11px; letter-spacing: 0.35em;
+      text-transform: uppercase; color: var(--foam); margin-bottom: 8px; opacity: 0.8;
+    }
+    h1 {
+      font-family: 'Teko', sans-serif;
+      font-size: clamp(42px, 10vw, 72px);
+      font-weight: 700; line-height: 0.9;
+      color: var(--sky); text-shadow: 0 0 40px rgba(26,184,232,0.4);
+    }
+    h1 span { color: var(--accent); }
+    .subtitle { font-size: 12px; color: var(--muted); margin-top: 10px; letter-spacing: 0.1em; }
+    .status-bar {
+      display: flex; align-items: center; gap: 8px;
+      justify-content: center; margin-top: 14px;
+      font-size: 11px; color: var(--muted);
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent); animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    main {
+      width: 100%; max-width: 680px;
+      padding: 28px 16px 40px; position: relative; z-index: 1;
+    }
+    .widget-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(26,184,232,0.2);
+      border-radius: 16px; padding: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    .card-label {
+      font-size: 10px; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--foam);
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .card-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, rgba(26,184,232,0.3), transparent);
+    }
+    #widget-container { border-radius: 8px; overflow: hidden; min-height: 250px; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .info-box {
+      background: rgba(26,184,232,0.05);
+      border: 1px solid rgba(26,184,232,0.12);
+      border-radius: 10px; padding: 14px 16px;
+    }
+    .info-box-label {
+      font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
+    }
+    .info-box-value { font-family: 'Teko', sans-serif; font-size: 22px; color: var(--sky); }
+    .info-box-value span { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); margin-left: 4px; }
+    footer { text-align: center; padding: 0 16px 32px; position: relative; z-index: 1; }
+    .footer-text { font-size: 10px; color: var(--muted); letter-spacing: 0.15em; line-height: 1.8; }
+    .footer-text a { color: var(--foam); text-decoration: none; border-bottom: 1px solid rgba(26,184,232,0.3); }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="tagline">Estação Meteorológica · Ao Vivo</p>
+    <h1>VENTO<br><span>AO VIVO</span></h1>
+    <p class="subtitle">Farol da Ponta Verde · Maceió · Alagoas</p>
+    <div class="status-bar">
+      <div class="status-dot"></div>
+      <span>Dados em tempo real · Atualização automática</span>
+    </div>
+  </header>
+  <main>
+    <div class="widget-card">
+      <div class="card-label">Gráfico de Vento</div>
+      <div id="widget-container">
+        <script src="https://www.windguru.cz/js/wgs_widget.php"></script>
+        <script>
+          WgsWidget({
+            id_station: 15572,
+            width: null,
+            height: 250,
+            hours: 6,
+            wj: 'knots',
+            gustiness: true,
+            divid: 'wgs_widget_15572_1779731640205',
+            type: 'wind'
+          });
+        </script>
+        <div id="wgs_widget_15572_1779731640205"></div>
+      </div>
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="info-box-label">Unidade</div>
+          <div class="info-box-value">Nós <span>knots</span></div>
+        </div>
+        <div class="info-box">
+          <div class="info-box-label">Janela</div>
+          <div class="info-box-value">6h <span>horas</span></div>
+        </div>
+        <div class="info-box">
+          <div class="info-box-label">Estação</div>
+          <div class="info-box-value">15572</div>
+        </div>
+        <div class="info-box">
+          <div class="info-box-label">Rajadas</div>
+          <div class="info-box-value">Sim <span>ativo</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <p class="footer-text">
+      Dados fornecidos por <a href="https://www.windguru.cz" target="_blank">Windguru.cz</a><br>
+      Compartilhe este link no seu grupo de WhatsApp
+    </p>
+  </footer>
+</body>
+</html>
