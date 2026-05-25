@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d1b2a">
+  <meta name="description" content="Condicoes de vento ao vivo para a estacao Windguru 15572. Velocidade, direcao e rajadas em tempo real.">
+  <meta property="og:title" content="Windguru Live - Estacao 15572">
+  <meta property="og:description" content="Condicoes de vento em tempo real">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://github.io/aovivo/">
+  <link rel="preconnect" href="https://www.windguru.cz">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>&#x1F32C;</text></svg>">
+  <title>Windguru Live - Estacao 15572</title>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Windguru Live - Estacao 15572",
+    "description": "Condicoes de vento em tempo real para a estacao 15572"
+  }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d1b2a;
+      color: #e0eaf5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      gap: 14px;
+    }
+
+    header { width: 100%; max-width: 640px; }
+    header h1 { font-size: 1.1rem; font-weight: 700; }
+    header p  { font-size: 0.75rem; color: #7fa8cc; margin-top: 3px; display: flex; align-items: center; }
+
+    .live-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      background: #22dd88;
+      border-radius: 50%;
+      margin-right: 6px;
+      flex-shrink: 0;
+      animation: pulse 1.4s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.4; transform:scale(1.3); }
+    }
+
+    .card {
+      width: 100%;
+      max-width: 640px;
+      background: #132336;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 28px rgba(0,0,0,.45);
+      overflow-x: auto;
+    }
+
+    .card-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #5a8ab0;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Skeleton loader */
+    #wind-container {
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .skeleton-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+    .skeleton {
+      background: linear-gradient(90deg, #1a3050 25%, #22405f 50%, #1a3050 75%);
+      background-size: 200% 100%;
+      border-radius: 8px;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .sk-circle  { width: 120px; height: 120px; border-radius: 50%; }
+    .sk-bar     { height: 14px; width: 80%; }
+    .sk-bar.sm  { width: 50%; }
+
+    .spin-icon {
+      font-size: 2rem;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Estados de erro */
+    .error-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    .error-state .error-icon { font-size: 2rem; }
+    .error-timeout { color: #f0a500; }
+    .error-network { color: #e05555; }
+    .error-state p { font-size: 0.85rem; }
+    .error-state a { color: #3a7ab0; font-size: 0.85rem; }
+    .retry-btn {
+      margin-top: 4px;
+      padding: 6px 16px;
+      background: #1e3f5c;
+      border: 1px solid #3a7ab0;
+      border-radius: 8px;
+      color: #7fa8cc;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .retry-btn:hover { background: #264f72; }
+
+    footer {
+      font-size: 0.65rem;
+      color: #2a4a66;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+    footer a { color: #3a7ab0; text-decoration: none; }
+
+    @media (max-width: 480px) {
+      header h1 { font-size: 1rem; }
+      .card { padding: 12px; border-radius: 12px; }
+      .sk-circle { width: 90px; height: 90px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>&#x1F32C;&#xFE0F; Condicoes de Vento - ID 15572</h1>
+    <p><span class="live-dot" aria-label="Status ao vivo"></span>Ao vivo &middot; Windguru</p>
+  </header>
+
+  <div class="card" role="region" aria-label="Widget de vento ao vivo">
+    <div class="card-label"><span class="live-dot" aria-hidden="true"></span>Vento ao vivo</div>
+
+    <div id="wind-container" aria-live="polite" aria-label="Dados de vento">
+      <div class="skeleton-wrap">
+        <span class="spin-icon" aria-hidden="true">&#x1F300;</span>
+        <div class="skeleton sk-circle"></div>
+        <div class="skeleton sk-bar"></div>
+        <div class="skeleton sk-bar sm"></div>
+      </div>
+    </div>
+
+    <script id="wglive_15572_1779742810382">
+    (function (window, document) {
+      var TIMEOUT_MS   = 15000;
+      var MAX_RETRIES  = 2;
+      var retries      = 0;
+
+      function loadWidget() {
+        var arg = ["spot=15572","uid=wglive_15572_1779742810382","direct=1","wj=knots","tj=c","avg_min=0","gsize=400","msize=400","m=3","ai=0","show=n,g,c"];
+        var script = document.createElement("script");
+        var tag    = document.getElementsByTagName("script")[0];
+
+        script.async = true;
+
+        script.onerror = function () {
+          if (retries < MAX_RETRIES) {
+            retries++;
+            setTimeout(loadWidget, 3000);
+          } else {
+            showError("network");
+          }
+        };
+
+        script.src = "https://www.windguru.cz/js/wglive.php?" + arg.join("&");
+        tag.parentNode.insertBefore(script, tag);
+
+        setTimeout(function () {
+          var c = document.getElementById("wind-container");
+          if (c && c.querySelector(".skeleton-wrap")) {
+            if (retries < MAX_RETRIES) {
+              retries++;
+              setTimeout(loadWidget, 3000);
+            } else {
+              showError("timeout");
+            }
+          }
+        }, TIMEOUT_MS);
+      }
+
+      function showError(type) {
+        var c = document.getElementById("wind-container");
+        if (!c) return;
+        var isTimeout = type === "timeout";
+        c.innerHTML =
+          "<div class=\"error-state\">" +
+            "<span class=\"error-icon\">" + (isTimeout ? "&#x23F1;&#xFE0F;" : "&#x26A0;&#xFE0F;") + "</span>" +
+            "<p class=\"" + (isTimeout ? "error-timeout" : "error-network") + "\">" +
+              (isTimeout ? "Tempo esgotado ao carregar os dados." : "Erro de conexao com o servidor.") +
+            "</p>" +
+            "<a href=\"https://www.windguru.cz/station/15572\" target=\"_blank\">Ver diretamente no Windguru</a>" +
+            "<button class=\"retry-btn\" onclick=\"location.reload()\">&#x21BA; Tentar novamente</button>" +
+          "</div>";
+      }
+
+      window.addEventListener ? window.addEventListener("load", loadWidget, false) : window.attachEvent("onload", loadWidget);
+    })(window, document);
+    </script>
+  </div>
+
+  <footer>
+    <a href="https://www.windguru.cz/station/15572" target="_blank">windguru.cz/station/15572</a>
+  </footer>
+
+</body>
+</html>
